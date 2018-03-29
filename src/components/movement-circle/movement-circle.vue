@@ -1,9 +1,12 @@
 <template>
   <div class="movement-circle">
-    <search-link></search-link>
+    <div class="search-c">
+      <search-link></search-link>
+    </div>
     <div class="tab-box">
       <tab></tab>
     </div>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -26,8 +29,13 @@ export default {
 
 <style scoped lang="less" type="text/less">
 .movement-circle{
+  .search-c{
+    padding: 20px 20px 0 20px;
+  }
   .tab-box{
     margin-top: 20px;
+    padding: 0 20px 5px 20px;
+    border-bottom: 1px solid #ccc;
   }
 }
 </style>

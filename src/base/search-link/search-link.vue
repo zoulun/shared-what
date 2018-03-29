@@ -22,6 +22,7 @@ export default {
     line-height: 30px;
     padding: 0 10px;
     background: #f5f5f5;
+    color: #ccc;
     border-radius: 4px;
     .placeholder-text{
       font-size: 14px;

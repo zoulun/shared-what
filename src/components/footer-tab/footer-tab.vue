@@ -1,6 +1,6 @@
 <template>
   <div class="footer-tab">
-    <router-link tag="div" class="tab-item" to="/movement-circle">
+    <router-link tag="div" class="tab-item" to="/movement-circle/hot">
       <span class="tab-link">运动圈</span>
     </router-link>
     <router-link tag="div" class="tab-item" to="/found">
@@ -25,6 +25,13 @@ export default {}
 <style scoped lang="less" type="text/less">
   .footer-tab{
     display: flex;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    height: 50px!important;
+    line-height: 50px!important;
+    box-shadow: 0 0px 10px rgba(0, 0, 0, 0.2);
+    color: #ccc;
     font-size: 14px;
     .tab-item{
       flex: 1;

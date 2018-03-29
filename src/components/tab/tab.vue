@@ -1,12 +1,12 @@
 <template>
   <div class="tab">
-    <router-link tag="div" class="tab-item" to="/hot">
+    <router-link tag="div" class="tab-item" to="/movement-circle/hot">
       <span class="tab-link">热门</span>
     </router-link>
-    <router-link tag="div" class="tab-item" to="/focus">
+    <router-link tag="div" class="tab-item" to="/movement-circle/focus">
       <span class="tab-link">关注</span>
     </router-link>
-    <router-link tag="div" class="tab-item" to="/live">
+    <router-link tag="div" class="tab-item" to="/movement-circle/live">
       <span class="tab-link">直播</span>
     </router-link>
   </div>
