@@ -31,6 +31,7 @@ export default {}
     height: 50px!important;
     line-height: 50px!important;
     box-shadow: 0 0px 10px rgba(0, 0, 0, 0.2);
+    background: #fff;
     color: #ccc;
     font-size: 14px;
     .tab-item{

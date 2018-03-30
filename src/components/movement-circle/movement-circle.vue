@@ -29,6 +29,7 @@ export default {
 
 <style scoped lang="less" type="text/less">
 .movement-circle{
+  padding-bottom: 50px;
   .search-c{
     padding: 20px 20px 0 20px;
   }
