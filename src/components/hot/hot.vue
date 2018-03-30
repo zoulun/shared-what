@@ -1,94 +1,119 @@
 <template>
   <div class="hot-container">
-    <div class="banner">
-      <ul class="banner-list">
-        <li class="">
-          <img src="../../common/image/banner.jpg" alt="">
-        </li>
-      </ul>
-      <!-- <div class="divider-line"></div> -->
-    </div>
-    <div class="topic">
-      <div class="topic-container">
-        <div class="topic-title">
-          <h2>热门话题</h2>
-          <span class="more">更多 ></span>
-        </div>
-        <div class="content">
-          <div class="left">
-            <!-- <img src="../../common/image/banner.jpg" alt=""> -->
-          </div>
-          <div class="right">
-            <h3 class="title">#我买跑鞋怎么了</h3>
-            <p class="disc">谁说买跑鞋就是浪费钱？我不服！谁说买跑鞋就是浪费钱？我不服！</p>
-            <div class="participate">6666人参与</div>
-          </div>
-        </div>
-        <div class="bottom">
-          <ul>
-            <li class="lable-list" v-for="(list, index) in topicLabel" :key="index">{{list}}</li>
-          </ul>
-        </div>
-      </div>
-      <!-- <div class="divider-line"></div> -->
-    </div>
-    <div class="handpicked">
-      <div class="handpicked-container">
-        <h2 class="handpicked-title">热门话题</h2>
-        <div>
-          <ul class="handpicked-list">
-            <li class="handpicked-item">
+    <scroll class="hot-content">
+      <div>
+        <div class="banner">
+          <ul class="banner-list">
+            <li class="">
               <img src="../../common/image/banner.jpg" alt="">
-              <div>
-                <p>打工？这辈子都是不可能打工的啦！打工？这辈子都是不可能打工的啦！</p>
-                <div class="bottom">
-                  <div class="left">
-                    <img src="../../common/image/banner.jpg" alt="">
-                    <span>哈哈哈哈</span>
-                  </div>
-                  <div class="right">
-                    <i class="el-icon-star-off"></i>
-                    <span>666</span>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li class="handpicked-item">
-              <img src="../../common/image/banner.jpg" alt="">
-              <div>
-                <p>打工？这辈子都是不可能打工的啦！打工？这辈子都是不可能打工的啦！</p>
-                <div class="bottom">
-                  <div class="left">
-                    <img src="../../common/image/banner.jpg" alt="">
-                    <span class="name">哈哈哈哈</span>
-                  </div>
-                  <div class="right">
-                    <i class="el-icon-star-off"></i>
-                    <span>666</span>
-                  </div>
-                </div>
-              </div>
             </li>
           </ul>
+          <!-- <div class="divider-line"></div> -->
+        </div>
+        <div class="topic">
+          <div class="topic-container">
+            <div class="topic-title">
+              <h2>热门话题</h2>
+              <span class="more">更多 ></span>
+            </div>
+            <div class="content">
+              <div class="left">
+                <!-- <img src="../../common/image/banner.jpg" alt=""> -->
+              </div>
+              <div class="right">
+                <h3 class="title">#我买跑鞋怎么了</h3>
+                <p class="disc">谁说买跑鞋就是浪费钱？我不服！谁说买跑鞋就是浪费钱？我不服！</p>
+                <div class="participate">6666人参与</div>
+              </div>
+            </div>
+            <div class="bottom">
+              <ul>
+                <li class="lable-list" v-for="(list, index) in topicLabel" :key="index">{{list}}</li>
+              </ul>
+            </div>
+          </div>
+          <!-- <div class="divider-line"></div> -->
+        </div>
+        <div class="handpicked">
+          <div class="handpicked-container">
+            <h2 class="handpicked-title">热门话题</h2>
+            <div>
+              <ul class="handpicked-list">
+                <li class="handpicked-item">
+                  <img src="../../common/image/banner.jpg" alt="">
+                  <div>
+                    <p>打工？这辈子都是不可能打工的啦！打工？这辈子都是不可能打工的啦！</p>
+                    <div class="bottom">
+                      <div class="left">
+                        <img src="../../common/image/banner.jpg" alt="">
+                        <span>哈哈哈哈</span>
+                      </div>
+                      <div class="right">
+                        <i class="el-icon-star-off"></i>
+                        <span>666</span>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="handpicked-item">
+                  <img src="../../common/image/banner.jpg" alt="">
+                  <div>
+                    <p>打工？这辈子都是不可能打工的啦！打工？这辈子都是不可能打工的啦！</p>
+                    <div class="bottom">
+                      <div class="left">
+                        <img src="../../common/image/banner.jpg" alt="">
+                        <span class="name">哈哈哈哈</span>
+                      </div>
+                      <div class="right">
+                        <i class="el-icon-star-off"></i>
+                        <span>666</span>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </scroll>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+import Scroll from 'base/scroll/scroll'
+import Mock from 'mockjs'
+
 export default {
   data () {
     return {
       topicLabel: ['#我想上精选', '#健身日志', '#跑步', '#哈哈哈哈', '#开始减肥']
     }
+  },
+  mounted () {
+    this.hotList = Mock.mock({
+      'list|1-10': [{
+        'id|+1': 1
+      }]
+    })
+    console.log(this.hosList)
+  },
+  components: {
+    Scroll
   }
 }
 </script>
 
 <style scoped lang="less" type="text/less">
 .hot-container{
-  position: relative;
+  position: fixed;
+  width: 100%;
+  top: 95px;
+  bottom: 50px;
+  .hot-content{
+    height: 100%;
+    overflow: hidden;
+  }
   .banner{
     position: relative;
   }

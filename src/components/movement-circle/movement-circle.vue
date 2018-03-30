@@ -13,6 +13,7 @@
 <script type="text/ecmascript-6">
 import SearchLink from 'base/search-link/search-link'
 import Tab from 'components/tab/tab'
+
 export default {
   data () {
     return {
