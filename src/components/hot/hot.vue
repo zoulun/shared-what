@@ -8,7 +8,6 @@
               <img src="../../common/image/banner.jpg" alt="">
             </li>
           </ul>
-          <!-- <div class="divider-line"></div> -->
         </div>
         <div class="topic">
           <div class="topic-container">
@@ -18,55 +17,38 @@
             </div>
             <div class="content">
               <div class="left">
-                <!-- <img src="../../common/image/banner.jpg" alt=""> -->
+                <img :src="movementCircleHot.topicIamge" alt="">
               </div>
               <div class="right">
-                <h3 class="title">#我买跑鞋怎么了</h3>
-                <p class="disc">谁说买跑鞋就是浪费钱？我不服！谁说买跑鞋就是浪费钱？我不服！</p>
-                <div class="participate">6666人参与</div>
+                <h3 class="title">#{{movementCircleHot.topicTitle}}</h3>
+                <p class="disc">{{movementCircleHot.topicDisc}}</p>
+                <div class="participate">{{movementCircleHot.participate}}人参与</div>
               </div>
             </div>
             <div class="bottom">
               <ul>
-                <li class="lable-list" v-for="(list, index) in topicLabel" :key="index">{{list}}</li>
+                <li class="lable-list" v-for="(list, index) in movementCircleHot.topicTab" :key="index">#{{list}}</li>
               </ul>
             </div>
           </div>
-          <!-- <div class="divider-line"></div> -->
         </div>
         <div class="handpicked">
           <div class="handpicked-container">
-            <h2 class="handpicked-title">热门话题</h2>
+            <h2 class="handpicked-title">精选</h2>
             <div>
               <ul class="handpicked-list">
-                <li class="handpicked-item">
-                  <img src="../../common/image/banner.jpg" alt="">
+                <li class="handpicked-item" v-for="(item, index) in movementCircleHot.topicHandpickedList" :key="index">
+                  <img :src="item.handpickedIamge" alt="">
                   <div>
-                    <p>打工？这辈子都是不可能打工的啦！打工？这辈子都是不可能打工的啦！</p>
+                    <p class="desc">{{item.handpickedDisc}}</p>
                     <div class="bottom">
                       <div class="left">
-                        <img src="../../common/image/banner.jpg" alt="">
-                        <span>哈哈哈哈</span>
+                        <img :src="item.photo" alt="">
+                        <span>{{item.name}}</span>
                       </div>
                       <div class="right">
                         <i class="el-icon-star-off"></i>
-                        <span>666</span>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li class="handpicked-item">
-                  <img src="../../common/image/banner.jpg" alt="">
-                  <div>
-                    <p>打工？这辈子都是不可能打工的啦！打工？这辈子都是不可能打工的啦！</p>
-                    <div class="bottom">
-                      <div class="left">
-                        <img src="../../common/image/banner.jpg" alt="">
-                        <span class="name">哈哈哈哈</span>
-                      </div>
-                      <div class="right">
-                        <i class="el-icon-star-off"></i>
-                        <span>666</span>
+                        <span>{{item.starNum}}</span>
                       </div>
                     </div>
                   </div>
@@ -76,30 +58,38 @@
           </div>
         </div>
       </div>
+      <div class="loading-container" v-show="!movementCircleHot.topicHandpickedList">
+        <loading class="loading-content"></loading>
+      </div>
     </scroll>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 import Scroll from 'base/scroll/scroll'
-import Mock from 'mockjs'
+import Loading from 'base/loading/loading'
+import {getMovementCircleHot} from 'api/movement-circle'
 
 export default {
   data () {
     return {
-      topicLabel: ['#我想上精选', '#健身日志', '#跑步', '#哈哈哈哈', '#开始减肥']
+      movementCircleHot: []
     }
   },
-  mounted () {
-    this.hotList = Mock.mock({
-      'list|1-10': [{
-        'id|+1': 1
-      }]
-    })
-    console.log(this.hosList)
+  created () {
+    this._getMovementCircleHot()
+  },
+  methods: {
+    _getMovementCircleHot () {
+      getMovementCircleHot().then((res) => {
+        this.movementCircleHot = res.data
+        console.log(this.movementCircleHot)
+      })
+    }
   },
   components: {
-    Scroll
+    Scroll,
+    Loading
   }
 }
 </script>
@@ -145,10 +135,9 @@ export default {
         .left{
           width: 80px;
           height: 80px;
-          background: url('../../common/image/banner.jpg') no-repeat;
-          background-size: cover;
           img{
-            width: 100%
+            width: 100%;
+            height: 100%;
           }
         }
         .right{
@@ -158,6 +147,10 @@ export default {
             font-size: 16px;
           }
           .disc{
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
             font-size: 12px;
             color: #888;
             margin-top: 5px;
@@ -179,9 +172,6 @@ export default {
             border-radius: 20px;
             background: #f5f5f5;
           }
-          .lable-list:not(:first-child){
-              // margin-left: 10px;
-          }
         }
       }
     }
@@ -197,9 +187,22 @@ export default {
       .handpicked-list{
         display: flex;
         justify-content: space-between;
+        flex-wrap: wrap;
         .handpicked-item{
+          position: relative;
           flex: 0 0 48%;
+          margin-bottom: 10px;
           overflow: hidden;
+          &>img{
+            width: 100%;
+            height: 150px;
+          }
+          .desc{
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
+            overflow: hidden;
+          }
           .bottom{
             display: flex;
             justify-content: space-between;
@@ -215,6 +218,18 @@ export default {
           }
         }
       }
+    }
+  }
+  .loading-container{
+    position: fixed;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0);
+    .loading-content{
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
     }
   }
 }
