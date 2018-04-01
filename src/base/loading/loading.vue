@@ -22,7 +22,7 @@ export default {
   text-align: center;
   .desc{
     font-size: 12px;
-    color: #fff;
+    color: #999;
   }
 }
 </style>

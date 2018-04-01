@@ -2,12 +2,19 @@
   <div class="hot-container">
     <scroll class="hot-content">
       <div>
-        <div class="banner">
-          <ul class="banner-list">
-            <li class="">
-              <img src="../../common/image/banner.jpg" alt="">
-            </li>
-          </ul>
+        <div v-if="sliderList.length" class="banner">
+          <div>
+            <slider>
+              <div v-for="(item, index) in sliderList" :key="index"  class="banner-item">
+                <img :src="item" alt="">
+              </div>
+              <!-- <ul class="banner-list clearfix">
+                <li v-for="(item, index) in sliderList" :key="index"  class="banner-item">
+                  <img :src="item" alt="">
+                </li> -->
+              <!-- </ul> -->
+            </slider>
+          </div>
         </div>
         <div class="topic">
           <div class="topic-container">
@@ -25,10 +32,12 @@
                 <div class="participate">{{movementCircleHot.participate}}人参与</div>
               </div>
             </div>
-            <div class="bottom">
-              <ul>
-                <li class="lable-list" v-for="(list, index) in movementCircleHot.topicTab" :key="index">#{{list}}</li>
-              </ul>
+            <div v-if="topicTab.length" class="bottom">
+              <tab-slider>
+                <ul class="lable-list">
+                  <li class="lable-item" v-for="(item, index) in topicTab" :key="index">#{{item}}</li>
+                </ul>
+              </tab-slider>
             </div>
           </div>
         </div>
@@ -68,28 +77,44 @@
 <script type="text/ecmascript-6">
 import Scroll from 'base/scroll/scroll'
 import Loading from 'base/loading/loading'
-import {getMovementCircleHot} from 'api/movement-circle'
+import Slider from 'base/slider/slider'
+import TabSlider from 'base/tab-slider/tab-slider'
+import {getMovementCircleHot, getSliderList} from 'api/movement-circle'
 
 export default {
   data () {
     return {
-      movementCircleHot: []
+      sliderList: [],
+      movementCircleHot: [],
+      topicTab: []
     }
   },
   created () {
+    this._getSliderList()
     this._getMovementCircleHot()
+  },
+  mounted () {
   },
   methods: {
     _getMovementCircleHot () {
       getMovementCircleHot().then((res) => {
         this.movementCircleHot = res.data
+        this.topicTab = res.data.topicTab
         console.log(this.movementCircleHot)
+      })
+    },
+    _getSliderList () {
+      getSliderList().then((res) => {
+        this.sliderList = res.data
+        console.log(this.sliderList)
       })
     }
   },
   components: {
     Scroll,
-    Loading
+    Loading,
+    Slider,
+    TabSlider
   }
 }
 </script>
@@ -106,15 +131,14 @@ export default {
   }
   .banner{
     position: relative;
-  }
-  .banner-list{
     padding: 20px;
-    li{
-      font-size: 0;
-    }
-    img{
-      width: 100%;
-    }
+  }
+  .banner-item{
+    font-size: 0;
+    float: left;
+  }
+  img{
+    width: 100%;
   }
   .topic{
     position: relative;
@@ -163,14 +187,20 @@ export default {
         }
       }
       .bottom{
+        width: 100%;
         padding-top: 10px;
         font-size: 12px;
-        &>ul{
+        overflow: hidden;
+        .lable-list{
           display: flex;
-          .lable-list{
+          .lable-item{
             padding: 4px;
             border-radius: 20px;
             background: #f5f5f5;
+            white-space: nowrap;
+          }
+          .lable-item:not(:first-child){
+            margin-left: 10px;
           }
         }
       }

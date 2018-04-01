@@ -3,6 +3,15 @@ import Mock from 'mockjs'
 const Random = Mock.Random
 
 const api = {
+  getSliderList () {
+    let arr = []
+    for (let i = 0; i < 6; i++) {
+      let color = Random.color()
+      let sliderItem = Random.image('720x290', color, '#fff', 'slider' + i)
+      arr.push(sliderItem)
+    }
+    return arr
+  },
   movementCircle () {
     // let handpickedList = []
     let hot = {
@@ -13,7 +22,7 @@ const api = {
       topicHandpickedList: [],
       participate: Random.natural(0, 1000)
     }
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 10; i++) {
       hot.topicTab.push(Random.cword(2, 5))
     }
     for (let i = 0; i < 8; i++) {
@@ -31,3 +40,4 @@ const api = {
 }
 
 Mock.mock('api/movement-circle/hot', api.movementCircle)
+Mock.mock('api/movement-circle/slider', api.getSliderList)

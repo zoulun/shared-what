@@ -8,3 +8,12 @@ export function getMovementCircleHot () {
     })
   })
 }
+
+export function getSliderList () {
+  let url = 'api/movement-circle/slider'
+  return new Promise((resolve) => {
+    axios.get(url).then((res) => {
+      resolve(res)
+    })
+  })
+}

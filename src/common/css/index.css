@@ -34,3 +34,8 @@ ul{
   /* padding-right: 40px; */
   bottom: -10px;
 }
+.clearfix::after{
+  content: '';
+  display: block;
+  clear: both;
+}
