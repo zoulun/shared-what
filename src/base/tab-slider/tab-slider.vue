@@ -28,7 +28,8 @@ export default {
     _initTopicTab () {
       this.topicTabScroll = new BScroll(this.$refs.tabSlider, {
         scrollX: true,
-        scrollY: false
+        scrollY: false,
+        stopPropagation: true
       })
     }
   }

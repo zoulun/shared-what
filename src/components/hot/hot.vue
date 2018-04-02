@@ -3,18 +3,11 @@
     <scroll class="hot-content">
       <div>
         <div v-if="sliderList.length" class="banner">
-          <div>
-            <slider>
-              <div v-for="(item, index) in sliderList" :key="index"  class="banner-item">
-                <img :src="item" alt="">
-              </div>
-              <!-- <ul class="banner-list clearfix">
-                <li v-for="(item, index) in sliderList" :key="index"  class="banner-item">
-                  <img :src="item" alt="">
-                </li> -->
-              <!-- </ul> -->
-            </slider>
-          </div>
+          <slider>
+            <div v-for="(item, index) in sliderList" :key="index"  class="banner-item">
+              <img :src="item" alt="">
+            </div>
+          </slider>
         </div>
         <div class="topic">
           <div class="topic-container">
