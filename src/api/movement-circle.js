@@ -17,3 +17,12 @@ export function getSliderList () {
     })
   })
 }
+
+export function getMovementDetail () {
+  let url = 'api/movement-circle/detail'
+  return new Promise((resolve) => {
+    axios.get(url).then((res) => {
+      resolve(res)
+    })
+  })
+}

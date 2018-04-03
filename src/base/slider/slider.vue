@@ -43,25 +43,32 @@ export default {
         this._play()
       }
     }, 3000)
+
+    window.addEventListener('resize', () => {
+      if (this.slider) {
+        this._initSliderWidth(true)
+        this.slider.refresh()
+      }
+    })
   },
   methods: {
-    _initSliderWidth () {
+    _initSliderWidth (isResize) {
       this.children = this.$refs.sliderGroup.children
       let width = 0
       let sliderWidth = this.$refs.slider.clientWidth
       for (let i = 0; i < this.children.length; i++) {
         let child = this.children[i]
-        child.style.width = child.clientWidth + 'px'
-        width += child.clientWidth
+        child.style.width = sliderWidth + 'px'
+        width += sliderWidth
       }
-      if (this.loop) {
+      if (this.loop && !isResize) {
         width += 2 * sliderWidth
       }
 
       this.$refs.sliderGroup.style.width = width + 'px'
     },
     _initSlider () {
-      this.scroll = new BScroll(this.$refs.slider, {
+      this.slider = new BScroll(this.$refs.slider, {
         scrollX: true,
         scrollY: false,
         momentum: false,
@@ -72,8 +79,8 @@ export default {
           speed: 400
         }
       })
-      this.scroll.on('scrollEnd', () => {
-        let pageIndex = this.scroll.getCurrentPage().pageX
+      this.slider.on('scrollEnd', () => {
+        let pageIndex = this.slider.getCurrentPage().pageX
         this.currentPageIndex = pageIndex
         if (this.autoPlay) {
           this._play()
@@ -82,12 +89,11 @@ export default {
     },
     _initDots () {
       this.dots = new Array(this.children.length - 2)
-      console.log('dots:' + this.dots)
     },
     _play () {
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
-        this.scroll.next()
+        this.slider.next()
       }, this.interval)
     }
   }

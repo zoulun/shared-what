@@ -29,6 +29,9 @@ export default {
         probeType: this.probeType,
         click: this.click
       })
+    },
+    refresh () {
+      this.scroll && this.scroll.refresh()
     }
   }
 }

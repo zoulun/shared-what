@@ -3,11 +3,11 @@
     <div class="search-c">
       <search-link></search-link>
     </div>
+    <div class="tab">
+      <span v-for="(item, index) in tabList" :key="index" class="tab-item">{{item}}</span>
+      <div class="active-move-block"></div>
+    </div>
     <div class="movement-main">
-      <div class="tab">
-        <span v-for="(item, index) in tabList" :key="index" class="tab-item">{{item}}</span>
-        <div class="active-move-block"></div>
-      </div>
       <div class="movement-page">
         <!-- <page-slider> -->
           <scroll class="movement-scroll page-item">
@@ -50,7 +50,7 @@
                     <h2 class="handpicked-title">精选</h2>
                     <div>
                       <ul class="handpicked-list">
-                        <li class="handpicked-item" v-for="(item, index) in movementCircleHot.topicHandpickedList" :key="index">
+                        <li class="handpicked-item" v-for="(item, index) in movementCircleHot.topicHandpickedList" :key="index" @click="selectDetail(item.id)">
                           <img :src="item.handpickedIamge" alt="">
                           <div>
                             <p class="desc">{{item.handpickedDisc}}</p>
@@ -87,6 +87,7 @@
     <keep-alive>
       <router-view></router-view>
     </keep-alive> -->
+    <router-view></router-view>
   </div>
 </template>
 
@@ -119,13 +120,16 @@ export default {
       getMovementCircleHot().then((res) => {
         this.movementCircleHot = res.data
         this.topicTab = res.data.topicTab
-        console.log(this.movementCircleHot)
       })
     },
     _getSliderList () {
       getSliderList().then((res) => {
         this.sliderList = res.data
-        console.log(this.sliderList)
+      })
+    },
+    selectDetail (id) {
+      this.$router.push({
+        path: `/movement-circle/${id}`
       })
     }
   },
@@ -143,15 +147,12 @@ export default {
 
 <style scoped lang="less" type="text/less">
 .movement-circle{
-  padding-bottom: 50px;
   .search-c{
     padding: 20px 20px 0 20px;
   }
-  .movement-main{
-    margin-top: 20px;
-    position: relative;
-    .tab{
+  .tab{
       position: relative;
+      margin-top: 20px;
       padding: 0 20px 4px 20px;
       border-bottom: 1px solid #ccc;
       font-size: 14px;
@@ -163,6 +164,11 @@ export default {
         bottom: 0;
       }
     }
+    .tab-item:not(:first-child){
+      margin-left: 20px;
+    }
+  .movement-main{
+    position: relative;
     .movement-page{
       position: fixed;
       width: 100%;
@@ -254,7 +260,6 @@ export default {
         }
         .handpicked{
           border-top: 10px solid #f5f5f5;
-          font-size: 12px;
           .handpicked-container{
             padding: 20px;
             .handpicked-title{
@@ -268,10 +273,12 @@ export default {
                 position: relative;
                 flex: 0 0 48%;
                 margin-bottom: 10px;
+                font-size: 12px;
                 overflow: hidden;
                 &>img{
                   width: 100%;
                   height: 150px;
+                  border-radius: 4px;
                 }
                 .desc{
                   display: -webkit-box;
@@ -317,9 +324,6 @@ export default {
     //     border-bottom: 2px solid green;
     //   }
     // }
-    .tab-item:not(:first-child){
-      margin-left: 20px;
-    }
   }
   .tab-box{
     margin-top: 20px;
