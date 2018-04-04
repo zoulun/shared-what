@@ -1,6 +1,6 @@
 <template>
   <div class="footer-tab">
-    <router-link tag="div" class="tab-item" to="/movement-circle/hot">
+    <router-link tag="div" class="tab-item" to="/movement-circle">
       <span class="tab-link">运动圈</span>
     </router-link>
     <router-link tag="div" class="tab-item" to="/found">

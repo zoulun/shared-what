@@ -81,13 +81,9 @@
       </div>
     </div>
 
-    <!-- <div class="tab-box">
-      <tab></tab>
-    </div>
     <keep-alive>
       <router-view></router-view>
-    </keep-alive> -->
-    <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 

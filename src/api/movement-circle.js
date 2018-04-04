@@ -26,3 +26,12 @@ export function getMovementDetail () {
     })
   })
 }
+
+export function getFound () {
+  let url = 'api/found'
+  return new Promise((resolve) => {
+    axios.get(url).then((res) => {
+      resolve(res)
+    })
+  })
+}

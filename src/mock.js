@@ -68,9 +68,22 @@ const api = {
       detail.evaluation.push(obj)
     }
     return detail
+  },
+  getFound () {
+    let arr = []
+    for (let i = 0; i < 7; i++) {
+      let obj = {
+        title: Random.cword(1, 5),
+        desc: Random.cparagraph(1, 2),
+        foundImage: Random.image('300x300', '#00405d', '#fff', 'found')
+      }
+      arr.push(obj)
+    }
+    return arr
   }
 }
 
 Mock.mock('api/movement-circle/hot', api.movementCircle)
 Mock.mock('api/movement-circle/slider', api.getSliderList)
 Mock.mock('api/movement-circle/detail', api.getMovementDetail)
+Mock.mock('api/found', api.getFound)

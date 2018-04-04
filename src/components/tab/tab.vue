@@ -13,7 +13,13 @@
 </template>
 
 <script type="text/ecmascript-6">
-export default {}
+export default {
+  data () {
+    return {
+      tabList: ['热门', '关注', '直播']
+    }
+  }
+}
 </script>
 
 <style scoped lang="less" type="text/less">
