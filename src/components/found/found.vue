@@ -5,7 +5,8 @@
     </div>
     <div class="found">
       <scroll class="found-scroll">
-        <div>
+        <!-- <i-scroll class="found-scroll"> -->
+        <!-- <div> -->
           <ul class="found-list">
             <li v-for="(item, index) in foundData" :key="index" class="found-item" @click="selectItem(item.link)">
               <div class="text-box">
@@ -17,7 +18,8 @@
               </div>
             </li>
           </ul>
-        </div>
+        <!-- </div> -->
+        <!-- </i-scroll> -->
       </scroll>
     </div>
     <router-view></router-view>
@@ -27,6 +29,7 @@
 <script type="text/ecmascript-6">
 import SearchLink from 'base/search-link/search-link'
 import Scroll from 'base/scroll/scroll'
+import IScroll from 'base/iscroll/iscroll'
 import {getFound} from 'api/movement-circle'
 
 export default {
@@ -44,7 +47,6 @@ export default {
         this.foundData = res.data
         // let length = this.foundData.length
         this.foundData[6].link = '/found/map'
-        console.log(res)
       })
     },
     selectItem (link) {
@@ -58,6 +60,7 @@ export default {
 
   components: {
     Scroll,
+    IScroll,
     SearchLink
   }
 }
@@ -68,12 +71,15 @@ export default {
   padding: 20px 20px 0 20px;
 }
 .found{
-  position: fixed;
-  width: 100%;
-  top: 50px;
-  bottom: 50px;
+  // position: fixed;
+  // width: 100%;
+  // top: 50px;
+  // bottom: 50px;
   .found-scroll{
-    height: 100%;
+    position: fixed;
+    width: 100%;
+    top: 50px;
+    bottom: 50px;
     overflow: hidden;
     .found-item::after{
       content: '';
