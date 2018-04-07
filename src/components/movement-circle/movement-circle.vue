@@ -14,11 +14,15 @@
             <div>
               <div class="hot-container">
                 <div v-if="sliderList.length" class="banner">
-                  <slider>
-                    <div v-for="(item, index) in sliderList" :key="index"  class="banner-item">
-                      <img :src="item" alt="">
+                  <div class="banner-wrapper">
+                    <div class="banner-content">
+                      <slider>
+                        <div v-for="(item, index) in sliderList" :key="index"  class="banner-item">
+                          <img :src="item" alt="">
+                        </div>
+                      </slider>
                     </div>
-                  </slider>
+                  </div>
                 </div>
                 <div class="topic">
                   <div class="topic-container">
@@ -180,6 +184,20 @@ export default {
         .banner{
           position: relative;
           padding: 20px;
+          .banner-wrapper{
+            position: relative;
+            width: 100%;
+            height: 0;
+            overflow: hidden;
+            padding-top: 40.2%;
+            .banner-content{
+              position: absolute;
+              left: 0;
+              top: 0;
+              width: 100%;
+              height: 100%;
+            }
+          }
         }
         .banner-item{
           font-size: 0;
