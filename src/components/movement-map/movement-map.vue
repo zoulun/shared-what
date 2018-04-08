@@ -182,8 +182,6 @@ export default {
         this.map.remove(arr)
       }
       this.positionPicker.start()
-      // this._initMarkers({})
-      // console.log(JSON.stringify(data))
     },
     geolocationError () {
     },
