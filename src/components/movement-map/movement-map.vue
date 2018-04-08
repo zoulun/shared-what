@@ -19,6 +19,7 @@ import AMapUI from 'AMapUI'
 export default {
   data () {
     return {
+      markers: [],
       currentPosition: [],
       MWalkRouter: {}
     }
@@ -29,32 +30,37 @@ export default {
   methods: {
     _initAMap () {
       this.map = new AMap.Map('map-container', {
-        zoom: 18,
-        center: [104.034058, 30.55848],
+        // zoom: 18,
+        // center: [104.034058, 30.55848],
         resizeEnable: true
       })
-
-      this.map.plugin('AMap.Geolocation', () => {
-        let geolocation = new AMap.Geolocation({
-          enableHighAccuracy: true,
-          timeout: 10000,
-          buttonOffset: new AMap.Pixel(10, 20),
-          // zoomToAccuracy: true,
-          buttonPosition: 'RB'
+      this.map.on('complete', () => {
+        this.map.plugin('AMap.Geolocation', () => {
+          let geolocation = new AMap.Geolocation({
+            enableHighAccuracy: true,
+            timeout: 10000,
+            buttonOffset: new AMap.Pixel(10, 20),
+            zoomToAccuracy: true,
+            buttonPosition: 'RB'
+          })
+          this.map.addControl(geolocation)
+          geolocation.getCurrentPosition()
+          AMap.event.addListener(geolocation, 'complete', this.geolocationComplete)
+          AMap.event.addListener(geolocation, 'fail', this.geolocationError)
         })
-        this.map.addControl(geolocation)
-        geolocation.getCurrentPosition()
-        AMap.event.addListener(geolocation, 'complete', this.geolocationComplete)
-        AMap.event.addListener(geolocation, 'fail', this.geolocationError)
-      })
 
-      this._initPositionPicker()
-      this.walkingInfo()
+        this._initPositionPicker()
+        this.walkingInfo()
+      })
     },
-    _initMarkers () {
+    _initMarkers (options) {
       let positions = []
       let currentX = this.currentPosition[0].toFixed(3)
       let currentY = this.currentPosition[1].toFixed(3)
+      let icon = options.icon
+      let content = options.content
+      let animation = options.animation || 'AMAP_ANIMATION_DROP'
+      // this.map.clearMap()
       for (let i = 0; i < 20; i++) {
         let lnglat = []
         let x = currentX + Math.floor(Math.random() * 1000)
@@ -62,12 +68,16 @@ export default {
         lnglat.push(x, y)
         positions.push(lnglat)
       }
+
       for (let j = 0; j < positions.length; j++) {
         let marker = new AMap.Marker({
           map: this.map,
+          icon: icon,
+          content: content,
           position: positions[j],
-          animation: 'AMAP_ANIMATION_DROP'
+          animation: animation
         })
+        this.markers.push(marker)
         AMap.event.addListener(marker, 'click', (res) => {
           let lnglat = []
           let x = res.lnglat.lng
@@ -76,6 +86,24 @@ export default {
           this._initWalking(lnglat)
         })
       }
+    },
+    creatPositionMarker (options) {
+      let icon = options.icon
+      let content = options.content
+      let pst = options.position
+      let animation = options.animation
+      if (this.positionMarker) {
+        this.map.remove(this.positionMarker)
+      }
+      let offset = new AMap.Pixel(-11, -11)
+      this.positionMarker = new AMap.Marker({
+        map: this.map,
+        offset: offset,
+        icon: icon,
+        content: content,
+        position: pst,
+        animation: animation
+      })
     },
     walkingInfo () {
       // 构造信息窗
@@ -115,8 +143,15 @@ export default {
               <p>时间：${this.MWalkRouter.time}分钟</p>
               <p>距离：${this.MWalkRouter.distance}米</p>
             </div>`
+            let markerContent = `<div class="position-picker"></div>`
             this.infoWindow.setContent(content)
             this.infoWindow.open(this.map, data.destination)
+            this.positionPicker.stop()
+            this.creatPositionMarker({
+              content: markerContent,
+              position: this.currentPosition
+            })
+            this.map.setFitView()
             console.log(status, data)
           }
         })
@@ -128,7 +163,8 @@ export default {
       let y = res.position.lat
       lnglat.push(x, y)
       this.currentPosition = lnglat
-      this._initMarkers()
+      this.map.remove(this.markers)
+      this._initMarkers({})
     },
     positionPickerError () {
     },
@@ -138,6 +174,15 @@ export default {
       let y = data.position.lat
       lnglat.push(x, y)
       this.currentPosition = lnglat
+      if (this.MWalk) {
+        this.MWalk.clear()
+      }
+      if (this.positionMarker) {
+        let arr = [this.positionMarker, this.infoWindow]
+        this.map.remove(arr)
+      }
+      this.positionPicker.start()
+      // this._initMarkers({})
       // console.log(JSON.stringify(data))
     },
     geolocationError () {
@@ -149,12 +194,21 @@ export default {
 }
 </script>
 
-<style scoped lang="less" type="text/less">
+<style lang="less" type="text/less">
 .slider-enter-active, .slider-leave-active{
   transition: all 0.3s;
 }
 .slider-enter, .slider-leave-to{
   transform: translate3d(100%, 0, 0);
+}
+.position-picker{
+  width: 22px;
+  height: 22px;
+  background: rgb(255, 225, 0);
+  border-radius: 50%;
+  border: 4px solid #fff;
+  box-sizing: border-box;
+  box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.5);
 }
 .map-page{
   position: fixed;
