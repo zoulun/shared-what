@@ -60,7 +60,7 @@ export default {
       let icon = options.icon
       let content = options.content
       let animation = options.animation || 'AMAP_ANIMATION_DROP'
-      // this.map.clearMap()
+
       for (let i = 0; i < 20; i++) {
         let lnglat = []
         let x = currentX + Math.floor(Math.random() * 1000)
