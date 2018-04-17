@@ -1,6 +1,6 @@
 <template>
   <div class="search-link">
-    <i class="el-icon-search"></i>
+    <i class="icon icon-search"></i>
     <span class="placeholder-text">{{placeholder}}</span>
   </div>
 </template>

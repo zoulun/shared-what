@@ -3,7 +3,7 @@
     <div class="map-page">
       <div class="header">
         <div class="back">
-          <i class="el-icon-arrow-left" @click="back"></i>
+          <i class="icon icon-back" @click="back"></i>
         </div>
         <span class="title">运动场</span>
       </div>
@@ -227,7 +227,7 @@ export default {
       left: 10px;
       top: 0;
       font-size: 20px;
-      .el-icon-arrow-left{
+      .icon-back{
         padding: 10px;
       }
     }

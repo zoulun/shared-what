@@ -17,7 +17,7 @@
                   <div class="banner-wrapper">
                     <div class="banner-content">
                       <slider>
-                        <div v-for="(item, index) in sliderList" :key="index"  class="banner-item">
+                        <div v-for="(item, index) in sliderList" :key="index" class="banner-item">
                           <img :src="item" alt="">
                         </div>
                       </slider>
@@ -64,7 +64,7 @@
                                 <span>{{item.name}}</span>
                               </div>
                               <div class="right">
-                                <i class="el-icon-star-off"></i>
+                                <i class="icon icon-good"></i>
                                 <span>{{item.starNum}}</span>
                               </div>
                             </div>
@@ -85,9 +85,7 @@
       </div>
     </div>
 
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
+    <router-view></router-view>
   </div>
 </template>
 

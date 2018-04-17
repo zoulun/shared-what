@@ -5,12 +5,6 @@
     </keep-alive>
     <FooterTab></FooterTab>
   </div>
-    <!-- <el-container>
-      <el-main>
-      </el-main>
-      <el-footer>
-      </el-footer>
-    </el-container> -->
 </template>
 
 <script>

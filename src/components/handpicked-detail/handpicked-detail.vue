@@ -3,12 +3,12 @@
     <div class="detail-container">
       <div class="header">
         <div class="back">
-          <i class="el-icon-arrow-left" @click="back"></i>
+          <i class="icon icon-back" @click="back"></i>
         </div>
         <span class="title">详情</span>
       </div>
-      <div class="detai-content">
-        <scroll class="detail-scroll">
+      <div class="detai-content" ref="detaiContent">
+        <scroll class="detail-scroll" ref="scroll">
           <div>
             <div class="detail">
               <div class="user">
@@ -35,12 +35,12 @@
               <p v-if="starPhoto.length" class="text">{{starPhoto.length}}人赞了</p>
               <div class="photo-box">
                 <ul class="left">
-                  <li v-for="(item, index) in starPhoto" :key="index" class="item">
+                  <li v-for="(item, index) in starPhotoList" :key="index" class="item">
                     <img :src="item" alt="">
                   </li>
                 </ul>
-                <div class="right">
-                  <i class="el-icon-more"></i>
+                <div class="right" v-if="isMore">
+                  <i class="icon icon-more"></i>
                 </div>
               </div>
             </div>
@@ -59,8 +59,9 @@
                       </div>
                     </div>
                     <div class="operation">
-                      <i class="el-icon-share"></i>
-                      <i class="el-icon-star-off"></i>
+                      <i class="icon icon-reply"></i>
+                      <i class="icon icon-good" :class="{'is-star': item.isStar}" @click="selectGood(item)"></i>
+                      <span class="star-num">{{item.starNum}}</span>
                     </div>
                   </div>
                   <p class="text">{{item.text}}</p>
@@ -70,6 +71,14 @@
           </div>
         </scroll>
       </div>
+      <div class="fixed-bottom">
+        <div class="evaluation-container">
+          <i class="icon icon-smiling"></i>
+          <input type="text" v-model="evaluationText" placeholder="我要评论">
+          <!-- <mt-button size="small" class="send-btn" ref="sendBtn">发送</mt-button> -->
+          <button class="send-btn" ref="sendBtn" :class="{'v-disabled': evaluationText.length === 0}" disabled>发送</button>
+        </div>
+      </div>
     </div>
   </transition>
 </template>
@@ -77,19 +86,28 @@
 <script type="text/ecmascript-6">
 import Scroll from 'base/scroll/scroll'
 import {getMovementDetail} from 'api/movement-circle'
+import {scrollMixin} from 'common/js/mixin'
 
 export default {
+  mixins: [scrollMixin],
   data () {
     return {
       movementDetail: {},
       starPhoto: [],
-      evaluation: []
+      starPhotoList: [],
+      evaluation: [],
+      evaluationText: '',
+      isMore: false,
+      isDisabled: 'disabled'
     }
   },
   created () {
     this.$nextTick(() => {
       this._getMovementDetail()
     })
+  },
+  mounted () {
+    this.scrollPositionBottom('detaiContent')
   },
   methods: {
     back () {
@@ -100,8 +118,41 @@ export default {
         this.movementDetail = res.data
         this.starPhoto = res.data.starPhoto
         this.evaluation = res.data.evaluation
+        if (this.starPhoto.length > 0) {
+          this._initStarPhoto()
+        }
         console.log(res)
       })
+    },
+    _initStarPhoto () {
+      const PHOTOWIDTH = 50
+      const PHOTOMARGIN = 5
+      let docWidth = document.body.clientWidth
+      let showStarPhoth = Math.floor(docWidth / (PHOTOWIDTH + PHOTOMARGIN))
+      if (this.starPhoto.length >= showStarPhoth) {
+        this.starPhotoList = this.starPhoto.slice(0, showStarPhoth - 2)
+        this.isMore = true
+      } else {
+        this.starPhotoList = this.starPhoto
+        this.isMore = false
+      }
+      window.addEventListener('resize', () => {
+        this._initStarPhoto()
+      })
+    },
+    selectGood (item) {
+      item.isStar = !item.isStar
+      item.starNum = item.isStar ? item.starNum + 1 : item.starNum - 1
+    }
+  },
+  watch: {
+    'evaluationText': (val) => {
+      console.log(1)
+      if (val && val.length > 0) {
+        this.isDisabled = ''
+      } else {
+        this.isDisabled = 'disabled'
+      }
     }
   },
   components: {
@@ -147,7 +198,7 @@ export default {
         left: 10px;
         top: 0;
         font-size: 20px;
-        .el-icon-arrow-left{
+        .icon-back{
           padding: 10px;
         }
       }
@@ -268,7 +319,13 @@ export default {
           .operation{
             font-size: 18px;
             i{
-              margin-right: 20px;
+              padding: 7px;
+            }
+            .is-star{
+              color: #26a72b;
+            }
+            .star-num{
+              font-size: 12px;
             }
           }
           .text-box{
@@ -279,6 +336,45 @@ export default {
         .text{
           font-size: 14px;
           padding-left: 60px;
+        }
+      }
+    }
+    .fixed-bottom{
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+      background: #f8f8f8;
+      padding: 5px;
+      box-sizing: border-box;
+      .evaluation-container{
+        display: flex;
+        i{
+          font-size: 30px;
+          color: #a6a6a6;
+        }
+        input{
+          flex: 1;
+          margin: 0 5px;
+          padding: 0 5px;
+          background: #fff;
+          border: none;
+          outline: none;
+          box-sizing: border-box;
+          border-radius: 10px;
+        }
+        .send-btn{
+          display: inline-block;
+          font-size: 14px;
+          padding: 0 12px;
+          height: 33px;
+          border-radius: 20px;
+          background: #1ccccc;
+          color: #fff;
+          border: none;
+          outline: none;
+        }
+        .send-btn.v-disabled{
+          background: #e1e1e1;
         }
       }
     }

@@ -47,7 +47,6 @@ const api = {
       desc: Random.cparagraph(2, 7),
       showPhoto: [],
       address: Random.city(),
-      starNum: Random.natural(0, 1000),
       starPhoto: [],
       evaluation: []
     }
@@ -63,6 +62,8 @@ const api = {
         photo: Random.image('100x100', '#00405d', '#fff', 'eva'),
         name: Random.cword(1, 5),
         time: Random.natural(1, 10),
+        isStar: Random.boolean(),
+        starNum: Random.natural(1, 100),
         text: Random.cparagraph(2, 5)
       }
       detail.evaluation.push(obj)
