@@ -113,6 +113,17 @@ export default {
     this._getSliderList()
     this._getMovementCircleHot()
   },
+  mounted () {
+    function* helloWorldGenerator () {
+      yield 'hello'
+      yield 'world'
+      return 'ending'
+    }
+    let hw = helloWorldGenerator()
+    for (let v of hw) {
+      console.log(v)
+    }
+  },
   methods: {
     _getMovementCircleHot () {
       getMovementCircleHot().then((res) => {

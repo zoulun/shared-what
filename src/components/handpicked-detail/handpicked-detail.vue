@@ -74,9 +74,9 @@
       <div class="fixed-bottom">
         <div class="evaluation-container">
           <i class="icon icon-smiling"></i>
-          <input type="text" v-model="evaluationText" placeholder="我要评论">
-          <!-- <mt-button size="small" class="send-btn" ref="sendBtn">发送</mt-button> -->
-          <button class="send-btn" ref="sendBtn" :class="{'v-disabled': evaluationText.length === 0}" disabled>发送</button>
+          <input type="text" v-model="evaluationText" placeholder="我要评论" @input="evaluationChange">
+          <mt-button size="small" class="send-btn" ref="sendBtn" disabled>发送</mt-button>
+          <!-- <button class="send-btn" ref="sendBtn" :class="{'v-disabled': evaluationText.length === 0}" disabled>发送</button> -->
         </div>
       </div>
     </div>
@@ -87,6 +87,7 @@
 import Scroll from 'base/scroll/scroll'
 import {getMovementDetail} from 'api/movement-circle'
 import {scrollMixin} from 'common/js/mixin'
+import {addClass, removeClass} from 'common/js/dom'
 
 export default {
   mixins: [scrollMixin],
@@ -97,8 +98,7 @@ export default {
       starPhotoList: [],
       evaluation: [],
       evaluationText: '',
-      isMore: false,
-      isDisabled: 'disabled'
+      isMore: false
     }
   },
   created () {
@@ -143,15 +143,17 @@ export default {
     selectGood (item) {
       item.isStar = !item.isStar
       item.starNum = item.isStar ? item.starNum + 1 : item.starNum - 1
-    }
-  },
-  watch: {
-    'evaluationText': (val) => {
-      console.log(1)
-      if (val && val.length > 0) {
-        this.isDisabled = ''
+    },
+    evaluationChange () {
+      let _el = this.$refs.sendBtn.$el
+      if (this.evaluationText.length === 0) {
+        this.$refs.sendBtn.$el.setAttribute('disabled', 'disabled')
+        addClass(_el, 'is-disabled')
+        removeClass(_el, 'active-btn')
       } else {
-        this.isDisabled = 'disabled'
+        this.$refs.sendBtn.$el.removeAttribute('disabled')
+        addClass(_el, 'active-btn')
+        removeClass(_el, 'is-disabled')
       }
     }
   },
@@ -368,10 +370,12 @@ export default {
           padding: 0 12px;
           height: 33px;
           border-radius: 20px;
-          background: #1ccccc;
-          color: #fff;
           border: none;
           outline: none;
+        }
+        .active-btn{
+          background: #1ccccc;
+          color: #fff;
         }
         .send-btn.v-disabled{
           background: #e1e1e1;

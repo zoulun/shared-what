@@ -10,6 +10,7 @@ import movementMap from 'components/movement-map/movement-map'
 // import Hot from 'components/hot/hot'
 // import Focus from 'components/focus/focus'
 // import Live from 'components/live/live'
+// const Found = () => import('components/found/found')
 
 Vue.use(Router)
 
